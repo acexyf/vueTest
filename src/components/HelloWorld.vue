@@ -12,7 +12,7 @@
       <br>
       <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank">Docs for This Template</a></li>
     </ul>
-    <h2 v-on:click="handleClick">Ecosystem</h2>
+    <h2 @click="handleClick">Ecosystem</h2>
     <ul>
       <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
       <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
@@ -20,32 +20,36 @@
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
     </ul>
     <card :header="{title:'我的钱包'}"/>
+    <Children :msgs="msgs" @changeMsgs="changeMsgs" />
   </div>
 </template>
 
 <script>
 
 import { Alert,Card } from 'vux'
-
+import Children from './Children.vue'
 
 
 export default {
-  components: {Card },
+  components: { Card,Children,Alert },
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      test: 'ceshices',
+      msgs: '给子组件的数据'
     }
   },
   mounted: function () {
-      setTimeout(()=>{
 
-          console.log(this.$vux)
-      },2000)
   },
   methods: {
       handleClick: function(ev){
           console.log(123)
+      },
+      changeMsgs: function(data){
+        console.log(data, 'changeMsgs parents');
+        this.msgs = data;
       }
   }
 }
