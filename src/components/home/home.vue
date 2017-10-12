@@ -21,6 +21,11 @@
     </ul>
     <card :header="{title:'我的钱包'}"/>
     <Children :msgs="msgs" @changeMsgs="changeMsgs" />
+    <div @click="goDetail">去详情页</div>
+
+    <p>{{test}}</p>
+    <p v-text="test"></p>
+
   </div>
 </template>
 
@@ -32,7 +37,7 @@ import Children from './Children.vue'
 
 export default {
   components: { Card,Children,Alert },
-  name: 'HelloWorld',
+  name: 'Home',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
@@ -44,12 +49,16 @@ export default {
 
   },
   methods: {
-      handleClick: function(ev){
+      handleClick(ev){
           console.log(123)
       },
-      changeMsgs: function(data){
+      changeMsgs(data){
         console.log(data, 'changeMsgs parents');
         this.msgs = data;
+      },
+      goDetail(){
+        console.log();
+        this.$router.push({ path: '/baoxian/detail/123?platform=3'})
       }
   }
 }

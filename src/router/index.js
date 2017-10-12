@@ -1,15 +1,27 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+// import Home from '@/components/home/home'
+// import Detail from '@/components/detail/detail'
+
+const Home  = () => import('@/components/home/home')
+const Detail  = () => import('@/components/detail/detail')
 
 Vue.use(Router)
 
+const rootName = '/baoxian';
+
 export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'Hello',
-      component: HelloWorld
-    }
-  ]
+	mode: 'history',
+  	routes: [
+		{
+			path: `${rootName}`,
+			name: 'Home',
+			component: Home
+		},
+		{
+			path: `${rootName}/detail/:id`,
+			name: 'Detail',
+			component: Detail
+		}
+  	]
 })
