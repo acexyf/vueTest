@@ -23,7 +23,7 @@ function uploadfile(filePath, callback){
   form.append('file',fs.readFileSync(nativePath).toString('base64'));
   form.append('userToken', config.userToken);
 
-  fetch('http://leonidapi.17usoft.com/v1/leonid/static/uploadfile',{
+  fetch('',{
     method: 'put',
     body: form
   })
