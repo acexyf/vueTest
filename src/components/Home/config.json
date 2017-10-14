@@ -1,0 +1,8 @@
+{
+    "desc": "首页",
+    "api":[{
+        "type":"get",
+        "route":"/home",
+        "file":"homeData"
+    }]
+}

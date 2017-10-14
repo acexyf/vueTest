@@ -2,23 +2,6 @@
 
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-      <br>
-      <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank">Docs for This Template</a></li>
-    </ul>
-    <h2 @click="handleClick">Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
     <card :header="{title:'我的钱包'}"/>
     <Children :msgs="msgs" @changeMsgs="changeMsgs" />
     <div @click="goDetail">去详情页</div>
@@ -33,7 +16,7 @@
 
 import { Alert,Card } from 'vux'
 import Children from './Children.vue'
-
+import fetch from '../../utils/fetch.js'
 
 export default {
   components: { Card,Children,Alert },
@@ -46,7 +29,13 @@ export default {
     }
   },
   mounted: function () {
-
+    fetch({
+        url: '/baoxian/api/home',
+        type: 'get'
+    })
+    .then((data)=>{
+        console.log(data)
+    })
   },
   methods: {
       handleClick(ev){
@@ -58,7 +47,7 @@ export default {
       },
       goDetail(){
         console.log();
-        this.$router.push({ path: '/baoxian/detail/123?platform=3'})
+        this.$router.push({ path: '/detail/123?platform=3'})
       }
   }
 }

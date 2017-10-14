@@ -1,7 +1,7 @@
 <template>
     <div class="detailWrap">
         详情页
-        <img class="bg" src="../../assets/detail/bg1.jpg" alt="">
+        <img class="bg" src="../../assets/bg1.jpg" alt="">
         <div class="temps"></div>
     </div>
 </template>
@@ -31,7 +31,7 @@ export default {
 .temps{
     width: 300px;
     height: 148px;
-    background: url(../../assets/detail/bg1.jpg);
+    background: url(../../assets/bg1.jpg);
     background-size: 100% 100%;
 }
 

@@ -1,39 +1,33 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import Home from '@/components/home/home'
-// import Detail from '@/components/detail/detail'
-
-// const Home  = () => import('@/components/home/home')
-// const Detail  = () => import('@/components/detail/detail')
 
 const Home = r => {
     require.ensure([], ()=>{
-        r(require('@/components/home/home'))
+        r(require('@/components/Home/Home'))
     }, 'home')
 }
 
 const Detail = r => {
     require.ensure([], ()=>{
-        r(require('@/components/detail/detail'))
+        r(require('@/components/Detail/Detail'))
     }, 'detail')
 }
 
+const routes = [{
+    path: `/`,
+    name: 'Home',
+    component: Home
+},
+{
+    path: `/detail/:id`,
+    name: 'Detail',
+    component: Detail
+}]
+
 Vue.use(Router)
 
-const rootName = '/baoxian';
-
 export default new Router({
-	mode: 'history',
-  	routes: [
-		{
-			path: `${rootName}`,
-			name: 'Home',
-			component: Home
-		},
-		{
-			path: `${rootName}/detail/:id`,
-			name: 'Detail',
-			component: Detail
-		}
-  	]
+  mode: 'history',
+  base: '/baoxian/',
+  routes
 })

@@ -6,10 +6,12 @@ if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV)
 }
 
+const ip = getIPAdress()
 const opn = require('opn')
 const path = require('path')
 const express = require('express')
 const webpack = require('webpack')
+const fs = require('fs')
 const proxyMiddleware = require('http-proxy-middleware')
 const webpackConfig = (process.env.NODE_ENV === 'testing' || process.env.NODE_ENV === 'production')
   ? require('./webpack.prod.conf')
@@ -25,6 +27,45 @@ const proxyTable = config.dev.proxyTable
 
 const app = express()
 const compiler = webpack(webpackConfig)
+
+let routeArr = []
+
+//从config.json中读取api数组
+const files = fs.readdirSync(path.resolve(__dirname, '../src/components'))
+files.map(function(file, fileIndex){
+    let dirPath = path.resolve(__dirname, '../src/components/' + file);
+    let stats = fs.statSync(dirPath);
+    if(stats.isDirectory()){
+        let filePath = path.resolve(__dirname, '../src/components/' + file + '/config.json')
+        let configStat = fs.statSync(filePath)
+        if(!!configStat && configStat.isFile()){
+            let configData = fs.readFileSync(filePath).toString();
+            try {
+                let parseData = JSON.parse(configData)
+                if(!!parseData && !!parseData.api && !!parseData.api.length){
+                    routeArr = routeArr.concat(parseData.api)
+                }
+            } catch(err){
+                console.log(err);
+            }
+        }
+    }
+})
+
+console.log(routeArr,'routeArr')
+
+//配置路由
+routeArr.map(function(apiElem){
+    if(apiElem.type.toLowerCase() == 'get'){
+        app.get('/baoxian/api' + apiElem.route,function(req,res){
+            res.sendFile(path.resolve(__dirname, '../api/'+apiElem.file+'.json'))
+        });
+    } else {
+        app.post('/baoxian/api' + apiElem.route,function(req,res){
+            res.sendFile(path.resolve(__dirname, '../api/'+apiElem.file+'.json'))
+        });
+    }
+})
 
 const devMiddleware = require('webpack-dev-middleware')(compiler, {
   publicPath: webpackConfig.output.publicPath,
@@ -88,7 +129,7 @@ devMiddleware.waitUntilValid(() => {
       _reject(err)
     }
     process.env.PORT = port
-    var uri = 'http://localhost:' + port
+    var uri = 'http://' + ip + ':' + port + '/baoxian'
     console.log('> Listening at ' + uri + '\n')
     // when env is testing, don't need open it
     if (autoOpenBrowser && process.env.NODE_ENV !== 'testing') {
@@ -98,6 +139,24 @@ devMiddleware.waitUntilValid(() => {
     _resolve()
   })
 })
+
+/**
+ * 获取本机IP
+ * @return {[string]} [IP地址]
+ */
+function getIPAdress() {
+    var interfaces = require('os').networkInterfaces();
+    for (var devName in interfaces) {
+        var iface = interfaces[devName];
+        for (var i = 0; i < iface.length; i++) {
+            var alias = iface[i];
+            if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+                return alias.address;
+            }
+        }
+    }
+}
+
 
 module.exports = {
   ready: readyPromise,

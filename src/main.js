@@ -5,6 +5,11 @@ import App from './App'
 import router from './router'
 import { Alert } from 'vux'
 
+//如果是开发环境，引入vconsole
+if (process.env.NODE_ENV == 'development') {
+  require('./utils/vconsole.min')
+}
+
 Vue.config.productionTip = false
 Vue.use(Alert)
 

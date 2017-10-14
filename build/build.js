@@ -1,5 +1,6 @@
 'use strict'
 require('./check-versions')()
+require('shelljs/global');
 
 process.env.NODE_ENV = 'production'
 
@@ -10,6 +11,8 @@ const chalk = require('chalk')
 const webpack = require('webpack')
 const config = require('../config')
 const webpackConfig = require('./webpack.prod.conf')
+const fs = require('fs')
+const { uploadStaticAsset } = require('./upload-static-asset')
 
 const spinner = ora('building for production...')
 spinner.start()
@@ -37,5 +40,9 @@ rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
       '  Tip: built files are meant to be served over an HTTP server.\n' +
       '  Opening index.html over file:// won\'t work.\n'
     ))
+
+    //上传打包文件
+    uploadStaticAsset()
+
   })
 })
