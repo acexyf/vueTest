@@ -129,7 +129,7 @@ devMiddleware.waitUntilValid(() => {
       _reject(err)
     }
     process.env.PORT = port
-    var uri = 'http://' + ip + ':' + port + '/baoxian'
+    var uri = 'http://' + ip + ':' + port + '/'
     console.log('> Listening at ' + uri + '\n')
     // when env is testing, don't need open it
     if (autoOpenBrowser && process.env.NODE_ENV !== 'testing') {

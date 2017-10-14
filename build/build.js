@@ -41,8 +41,8 @@ rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
       '  Opening index.html over file:// won\'t work.\n'
     ))
 
-    //上传打包文件
-    uploadStaticAsset()
+    // //上传打包文件
+    // uploadStaticAsset()
 
   })
 })
