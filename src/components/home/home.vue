@@ -9,6 +9,11 @@
     <p>{{test}}</p>
     <p v-text="test"></p>
 
+    <p @click="show = !show">change show</p>
+    <transition name="slide-fade">
+      <p v-if="show">hello</p>
+    </transition>
+
   </div>
 </template>
 
@@ -23,6 +28,7 @@ export default {
   name: 'Home',
   data () {
     return {
+      show: true,
       msg: 'Welcome to Your Vue.js App',
       test: 'ceshices',
       msgs: '给子组件的数据'
@@ -55,21 +61,25 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
+.fades-enter-active, .fades-leave-active {
+  transition: opacity 8s
+}
+.fades-enter, .fades-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+  opacity: 0
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
+
+
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
 }
 
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
 </style>
